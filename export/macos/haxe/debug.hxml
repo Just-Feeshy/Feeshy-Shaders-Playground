@@ -1,0 +1,25 @@
+-main ApplicationMain 
+--macro lime._internal.macros.DefineMacro.run()
+-cp /Users/diegofonseca/Haxe/lime/8,0,2/src
+-D lime=8.0.2
+-cp source
+-D MAC_USE_CURRENT_SDK=1
+-D lime-harfbuzz
+-D lime-openal
+-D tools=8.0.2
+-D lime-cairo
+-D lime-opengl
+-D no-compilation
+-D macos
+-D native
+-D lime-curl
+-D lime-native
+-D lime-vorbis
+-D MACOSX_DEPLOYMENT_TARGET=10.9
+-D lime-cffi
+-D mac
+-D desktop
+-cpp export/macos/obj/
+-cp export/macos/haxe
+--macro keep("Main")
+-debug
