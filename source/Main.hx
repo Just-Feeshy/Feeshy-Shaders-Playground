@@ -50,8 +50,6 @@ class Main extends Application {
 		shader.bind();
 		canvas.bind(shader);
 
-		//gl.vertexAttribPointer(shader.glVertexAttribute, 2, gl.FLOAT, false, 2 * Float32Array.BYTES_PER_ELEMENT, 0);
-
 		gl.bindBuffer(gl.ARRAY_BUFFER, null);
         gl.useProgram(null);
 	}
