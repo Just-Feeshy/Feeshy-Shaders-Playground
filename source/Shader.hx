@@ -28,7 +28,7 @@ class Shader {
     private var timeLocation:GLUniformLocation;
 
     #if !desktop
-    private static var webFragment = "precision mediump float;";
+    private static var webFragment = "precision mediump float;\n";
     #else
     private static var webFragment = "";
     #end
@@ -43,7 +43,10 @@ class Shader {
     }
 
     public function bind():Void {
-        gl.uniform2f(resolutionLocation, window.width, window.height);
+        var scaledWidth = Std.int(window.width * window.scale);
+        var scaledHeight = Std.int(window.height * window.scale);
+
+        gl.uniform2f(resolutionLocation, scaledWidth, scaledHeight);
         gl.uniform1f(timeLocation, System.getTimer() * 0.001);
         gl.enableVertexAttribArray(glVertexAttribute);
         gl.useProgram(glProgram);
@@ -61,7 +64,7 @@ class Shader {
 
     public function compile():Void {
         var vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexSource);
-        var fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentSource);
+        var fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, webFragment + fragmentSource);
 
         glProgram = gl.createProgram();
         gl.attachShader(glProgram, vertexShader);

@@ -26,9 +26,9 @@ class Main extends Application {
 	public override function onPreloadComplete():Void {
 		shader.includeVertexShader(Assets.getText("shaders/vertex.glsl"));
 		shader.includeFragmentShader(Assets.getText("shaders/fragment.glsl"));
-		//shader.includeFragmentShader(Assets.getText("shaders/layout/main.glsl"));
 		shader.includeFragmentShader("uniform vec2 iResolution;\nuniform float iTime;");
 		shader.compile();
+
 		start = true;
 	}
 
@@ -44,13 +44,18 @@ class Main extends Application {
 
 		gl.viewport(0, 0, scaledWidth, scaledHeight);
 
+		gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+		gl.enable(gl.BLEND);
+
 		gl.clearColor(0, 0, 0, 1);
         gl.clear(gl.COLOR_BUFFER_BIT);
 
 		shader.bind();
 		canvas.bind(shader);
 
+		#if desktop
 		gl.bindBuffer(gl.ARRAY_BUFFER, null);
         gl.useProgram(null);
+		#end
 	}
 }
