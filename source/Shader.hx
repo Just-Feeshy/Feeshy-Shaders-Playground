@@ -7,6 +7,7 @@ import lime.graphics.opengl.GLUniformLocation;
 import lime.graphics.opengl.GLShader;
 import lime.graphics.WebGLRenderContext;
 import lime.system.System;
+import lime.utils.Log;
 import lime.ui.Window;
 
 using StringTools;
@@ -83,7 +84,7 @@ class Shader {
         gl.compileShader(shader);
 
         if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-            throw 'An error occurred compiling the shaders: ' + gl.getShaderInfoLog(shader);
+            Log.error('An error occurred compiling the shaders: ' + gl.getShaderInfoLog(shader));
         }
 
         return shader;

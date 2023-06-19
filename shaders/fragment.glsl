@@ -12,7 +12,7 @@ vec4 head(vec2 uv, vec2 offset, float angle) {
 }
 
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
-    vec2 uv = fragCoord.xy / iResolution.xy;
+    vec2 uv = (fragCoord.xy * 2.0 - iResolution.xy) / min(iResolution.x, iResolution.y);
     fragColor = head(uv, vec2(0.0, 0.0), iTime);
 }
 
