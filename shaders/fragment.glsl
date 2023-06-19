@@ -23,8 +23,7 @@ vec4 head(vec2 uv, vec2 offset, float angle, float size) {
     d1 = lineUp(d1, size);
 
     // Compute ellipse color
-    vec3 colorEllipse = d < 1.0 ? vec3(1.0) : vec3(0.0, 0.0, 0.0);
-    colorEllipse = coord.x < 0.0 ? colorEllipse : vec3(0.0, 0.0, 0.0);
+    vec3 colorEllipse = d < 1.0 && coord.x < 0.0 ? vec3(1.0) : vec3(0.0, 0.0, 0.0);
 
     // Compute parabola color
     vec3 colorParabola = d1 < 1.0 ? vec3(1.0) : vec3(0.0, 0.0, 0.0);
