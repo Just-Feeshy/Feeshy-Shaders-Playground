@@ -2,6 +2,14 @@
 
 varying vec2 v_texCoord;
 
+
+// https://thebookofshaders.com/10/
+
+float random(vec2 st) {
+    return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123);
+}
+
+
 float fcos(float x) {
     return fract(cos(x));
 }
@@ -35,6 +43,8 @@ float noiseY(float x) {
 }
 
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
+
+    // Main Image
     float amplitude = 0.01;
     float frequency = 16.0;
 
@@ -47,12 +57,11 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     d = abs(d);
     d = 1.0 / d;
 
-    vec2 waveCoord = uv + vec2(pulse, 0.0) * amplitude;
+    vec2 waveCoord = uv.xy + vec2(pulse, 0.0) * amplitude;
     vec4 texColor = texture2D(iTexture, waveCoord);
     texColor *= vec4(0.5686, 0.1647, 1.0, 1.0) * 1.75;
     texColor *= vec4(d, d * 1.25, d * 1.25, 1.0);
-    
-    fragColor = vec4(texColor.rgb, texColor.a); // Color Purposes
+    fragColor = texColor; // Color Purposes
 }
 
 void main(void) {

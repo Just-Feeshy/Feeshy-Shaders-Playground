@@ -71,6 +71,7 @@ class Main extends Application {
         gl.useProgram(null);
 		#end
 
+		
 		// Checking for WebGL error after render
 
 		#if webgl
