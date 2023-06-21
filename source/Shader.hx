@@ -83,6 +83,11 @@ class Shader {
         gl.attachShader(glProgram, fragmentShader);
         gl.linkProgram(glProgram);
 
+        // Checking if the program was linked successfully
+        if(!gl.getProgramParameter(glProgram, gl.LINK_STATUS)) {
+            Log.error('An error occurred linking the shaders: ' + gl.getProgramInfoLog(glProgram));
+        }
+
         glVertexAttribute = gl.getAttribLocation(glProgram, "a_position");
         glTextureAttribute = gl.getAttribLocation(glProgram, "a_texCoord");
 

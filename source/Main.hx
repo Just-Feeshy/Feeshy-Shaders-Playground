@@ -5,6 +5,7 @@ import lime.graphics.RenderContext;
 import lime.ui.Window;
 import lime.utils.Float32Array;
 import lime.utils.Assets;
+import lime.utils.Log;
 
 class Main extends Application {
 	private var shader:Shader;
@@ -26,7 +27,13 @@ class Main extends Application {
 
 	public override function onPreloadComplete():Void {
 		shader.includeVertexShader(Assets.getText("shaders/vertex.glsl"));
+
+		#if debug
+		shader.includeFragmentShader(Assets.getText("shaders/debug/fragment.glsl"));
+		#else
 		shader.includeFragmentShader(Assets.getText("shaders/fragment.glsl"));
+		#end
+
 		shader.includeFragmentShader("uniform vec2 iResolution;\nuniform float iTime;\nuniform sampler2D iTexture;");
 		shader.compile();
 
@@ -62,6 +69,16 @@ class Main extends Application {
 		#if desktop
 		gl.bindBuffer(gl.ARRAY_BUFFER, null);
         gl.useProgram(null);
+		#end
+
+		// Checking for WebGL error after render
+
+		#if webgl
+        var error = gl.getError();
+
+        if (error != gl.NO_ERROR) {
+            Log.error('WebGL error: ' + error);
+        }
 		#end
 	}
 }
