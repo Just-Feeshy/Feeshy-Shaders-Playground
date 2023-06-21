@@ -11,6 +11,7 @@ class Canvas {
     public var indices(default, null):Int16Array;
     
     private var vertexBuffer:GLBuffer;
+    private var texCoordBuffer:GLBuffer;
     private var indexBuffer:GLBuffer;
     private var gl:WebGLRenderContext;
 
@@ -23,12 +24,26 @@ class Canvas {
             1.0, -1.0,  // bottom right
             -1.0, -1.0   // bottom left
         ];
+
+        var texCoords = [
+            0.0, 0.0,  // top left
+            1.0, 0.0,  // top right
+            1.0, 1.0,  // bottom right
+            0.0, 1.0   // bottom left
+        ];
+
         var indices = [0, 1, 2, 0, 2, 3];
 
         data = new Float32Array(vertices);
         vertexBuffer = gl.createBuffer();
 
         gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
+
+        data = new Float32Array(texCoords);
+        texCoordBuffer = gl.createBuffer();
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, texCoordBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
         
         this.indices = new Int16Array(indices);
@@ -40,11 +55,14 @@ class Canvas {
 
     public function bind(shader:Shader):Void {
         gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
-
         gl.enableVertexAttribArray(shader.glVertexAttribute);
         gl.vertexAttribPointer(shader.glVertexAttribute, 2, gl.FLOAT, false, 2 * Float32Array.BYTES_PER_ELEMENT, 0);
 
+        gl.bindBuffer(gl.ARRAY_BUFFER, texCoordBuffer);
+        gl.enableVertexAttribArray(shader.glTextureAttribute);
+        gl.vertexAttribPointer(shader.glTextureAttribute, 2, gl.FLOAT, false, 2 * Float32Array.BYTES_PER_ELEMENT, 0);
+
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
         gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
     }
 }

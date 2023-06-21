@@ -19,6 +19,7 @@ using StringTools;
 class Shader {
 
     public var glVertexAttribute(default, null):Int;
+    public var glTextureAttribute(default, null):Int;
     public var fragmentSource(default, null):String = "";
     public var vertexSource(default, null):String = "";
 
@@ -27,6 +28,7 @@ class Shader {
     private var gl:WebGLRenderContext;
     private var resolutionLocation:GLUniformLocation;
     private var timeLocation:GLUniformLocation;
+    private var textureLocation:GLUniformLocation;
 
     #if !desktop
     private static var webFragment = "precision mediump float;\n";
@@ -44,13 +46,22 @@ class Shader {
     }
 
     public function bind():Void {
+        gl.enableVertexAttribArray(glVertexAttribute);
+        gl.useProgram(glProgram);
+    }
+
+    public function bindTexture(texture:Texture):Void {
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, texture.texture);
+    }
+
+    public function bindUniforms():Void {
         var scaledWidth = Std.int(window.width * window.scale);
         var scaledHeight = Std.int(window.height * window.scale);
 
+        gl.uniform1i(textureLocation, 0);
         gl.uniform2f(resolutionLocation, scaledWidth, scaledHeight);
         gl.uniform1f(timeLocation, System.getTimer() * 0.001);
-        gl.enableVertexAttribArray(glVertexAttribute);
-        gl.useProgram(glProgram);
     }
 
     public function includeFragmentShader(source:String):Void {
@@ -72,10 +83,12 @@ class Shader {
         gl.attachShader(glProgram, fragmentShader);
         gl.linkProgram(glProgram);
 
+        glVertexAttribute = gl.getAttribLocation(glProgram, "a_position");
+        glTextureAttribute = gl.getAttribLocation(glProgram, "a_texCoord");
+
         resolutionLocation = gl.getUniformLocation(glProgram, "iResolution");
         timeLocation = gl.getUniformLocation(glProgram, "iTime");
-
-        glVertexAttribute = gl.getAttribLocation(glProgram, "a_position");
+        textureLocation = gl.getUniformLocation(glProgram, "iTexture");
     }
 
     private function createShader(gl:WebGLRenderContext, type:Int, source:String):GLShader {

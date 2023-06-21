@@ -9,6 +9,7 @@ import lime.utils.Assets;
 class Main extends Application {
 	private var shader:Shader;
 	private var canvas:Canvas;
+	private var texture:Texture;
 
 	private var start:Bool = false;
 
@@ -26,8 +27,10 @@ class Main extends Application {
 	public override function onPreloadComplete():Void {
 		shader.includeVertexShader(Assets.getText("shaders/vertex.glsl"));
 		shader.includeFragmentShader(Assets.getText("shaders/fragment.glsl"));
-		shader.includeFragmentShader("uniform vec2 iResolution;\nuniform float iTime;");
+		shader.includeFragmentShader("uniform vec2 iResolution;\nuniform float iTime;\nuniform sampler2D iTexture;");
 		shader.compile();
+
+		texture = new Texture(window.context.webgl, Assets.getImage("assets/Feeshy.png"));
 
 		start = true;
 	}
@@ -52,6 +55,9 @@ class Main extends Application {
 
 		shader.bind();
 		canvas.bind(shader);
+		texture.bind(0);
+		shader.bindTexture(texture);
+		shader.bindUniforms();
 
 		#if desktop
 		gl.bindBuffer(gl.ARRAY_BUFFER, null);
