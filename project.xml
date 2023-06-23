@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project>
 	
-	<meta title="FeeshyShaders" package="com.sample.feeshyshaders" version="1.0.0" company="Company Name" />
-	<app main="Main" path="export" file="FeeshyShaders" />
+	<meta title="Feeshy Shaders Playground" package="com.feeshy.shaders" version="1.0.0" company="JustFeeshy" />
+	<app main="Main" path="export" file="FSP" />
 
 	<window width="800" height="600" fps="120" background="#000000" hardware="true" vsync="false" />
 	
