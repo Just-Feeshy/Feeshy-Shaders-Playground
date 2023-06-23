@@ -6,7 +6,7 @@ Feeshy Shaders Playground is an innovative tool designed for testing and experim
 **F** - This key is utilized for capturing screenshots. Pressing 'F' will instantly capture the current shader's rendered output. (Does not work in WebGL)
 
 # Todo
-**Shader Navigation** - Currently implementing the **Right** and **Left** arrow keys for seamless navigation between different shaders.
+**Shader Navigation** - Implement the use of **Right** and **Left** arrow keys for seamless navigation between different shaders.
 
 # Gallery
 
