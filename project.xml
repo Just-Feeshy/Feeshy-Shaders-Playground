@@ -9,6 +9,7 @@
 	<source path="source" />
 	
 	<haxelib name="lime" />
+	<haxelib name="format" />
 	
 	<assets path="shaders" />
 	<assets path="assets" />

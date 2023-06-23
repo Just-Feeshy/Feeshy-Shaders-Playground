@@ -3,6 +3,8 @@ package;
 import lime.app.Application;
 import lime.graphics.RenderContext;
 import lime.ui.Window;
+import lime.ui.KeyCode;
+import lime.ui.KeyModifier;
 import lime.utils.Float32Array;
 import lime.utils.Assets;
 import lime.utils.Log;
@@ -11,6 +13,8 @@ class Main extends Application {
 	private var shader:Shader;
 	private var canvas:Canvas;
 	private var texture:Texture;
+	private var screenshot:Screenshot;
+	private var viewport:Viewport;
 
 	private var start:Bool = false;
 
@@ -21,8 +25,38 @@ class Main extends Application {
 	}
 
 	private function __onCreateWindow(window:Window):Void {
+		var scaledWidth = Std.int(window.width * window.scale);
+		var scaledHeight = Std.int(window.height * window.scale);
+
+		viewport = {
+			x: 0,
+			y: 0,
+			width: scaledWidth,
+			height: scaledHeight
+		};
+
 		shader = new Shader(window, window.context, "", "");
 		canvas = new Canvas(window.context.webgl);
+		screenshot = new Screenshot(viewport, window.context.webgl);
+
+		window.onKeyDown.add(__onKeyDown.bind(window));
+	}
+
+	private function __onKeyDown(window:Window, keyCode:KeyCode, modifier:KeyModifier):Void {
+		if(this.window == null || this.window != window) {
+			return;
+		}
+
+		#if desktop
+		if(keyCode == KeyCode.ESCAPE) {
+			window.close();
+		}
+		#end
+
+		if(keyCode == KeyCode.F) {
+			screenshot.capture();
+			screenshot.save();
+		}
 	}
 
 	public override function onPreloadComplete():Void {
@@ -49,11 +83,7 @@ class Main extends Application {
 
 		var gl = context.webgl;
 
-		var scaledWidth = Std.int(window.width * window.scale);
-		var scaledHeight = Std.int(window.height * window.scale);
-
-		gl.viewport(0, 0, scaledWidth, scaledHeight);
-
+		gl.viewport(viewport.x, viewport.y, viewport.width, viewport.height);
 		gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 		gl.enable(gl.BLEND);
 
@@ -71,7 +101,7 @@ class Main extends Application {
         gl.useProgram(null);
 		#end
 
-		
+
 		// Checking for WebGL error after render
 
 		#if webgl

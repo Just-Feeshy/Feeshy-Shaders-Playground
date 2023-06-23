@@ -9,6 +9,7 @@ import lime.graphics.opengl.GL;
 
 class Texture {
     public var texture(default, null):GLTexture;
+    public var image(default, null):Image;
 
     private var gl:WebGLRenderContext;
     private var width:Int;
@@ -33,10 +34,12 @@ class Texture {
         gl.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.LINEAR);
 
         #if js
-        gl.texImage2D (gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image.src);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image.src);
         #else
-        gl.texImage2D (gl.TEXTURE_2D, 0, gl.RGBA, image.buffer.width, image.buffer.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, image.data);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, image.buffer.width, image.buffer.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, image.data);
         #end
+
+        this.image = image;
     }
 
     public function bind(unit:Int):Void {
