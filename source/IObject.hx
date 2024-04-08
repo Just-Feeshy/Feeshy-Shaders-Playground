@@ -9,4 +9,6 @@ interface IObject {
 	private var indexBuffer:GLBuffer;
 
 	public function bind(shader:Shader):Void;
+	public function onPanel(index:Int):Void;
+	public function onUnPanel(index:Int):Void;
 }

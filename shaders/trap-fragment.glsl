@@ -1,6 +1,8 @@
-varying vec2 v_texCoord;
 
 void main(void) {
-	vec2 uv = v_texCoord.xy;
-	gl_FragColor = texture2D(iTexture, uv);
+	float colorR = mod(gl_FragCoord.x / 100.0, 1.0);
+	float colorG = mod(gl_FragCoord.y / 100.0, 1.0);
+	float colorB = 0.5; // Static value for simplification
+
+	gl_FragColor = vec4(colorR, colorG, colorB, 1.0);
 }

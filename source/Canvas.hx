@@ -53,6 +53,8 @@ class Canvas implements IObject {
 
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
         gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, this.indices, gl.STATIC_DRAW);
+
+	gl.activeTexture(gl.TEXTURE0);
     }
 
     public function bind(shader:Shader):Void {
@@ -66,7 +68,13 @@ class Canvas implements IObject {
 
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
         gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
+    }
 
-	shader.bindTexture(texture);
+    public function onPanel(index:Int):Void {
+	gl.bindTexture(gl.TEXTURE_2D, texture.texture);
+    }
+
+    public function onUnPanel(index:Int):Void {
+	gl.bindTexture(gl.TEXTURE_2D, null);
     }
 }

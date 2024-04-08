@@ -50,11 +50,6 @@ class Shader {
         gl.useProgram(glProgram);
     }
 
-    public function bindTexture(texture:Texture):Void {
-        gl.activeTexture(gl.TEXTURE0);
-        gl.bindTexture(gl.TEXTURE_2D, texture.texture);
-    }
-
     public function bindUniforms():Void {
         var scaledWidth = Std.int(window.width * window.scale);
         var scaledHeight = Std.int(window.height * window.scale);

@@ -41,6 +41,7 @@ class Main extends Application {
 		};
 
 		shaders[0] = new Shader(window, window.context, "", "");
+		shaders[1] = new Shader(window, window.context, "", "");
 		screenshot = new Screenshot(viewport, window.context.webgl);
 
 		window.onKeyDown.add(__onKeyDown.bind(window));
@@ -70,6 +71,17 @@ class Main extends Application {
 		}
 	}
 
+	private function changeObject():Void {
+		for(object in objects) {
+			if(object == objects[index]) {
+				object.onPanel(index);
+				continue;
+			}
+
+			object.onUnPanel(index);
+		}
+	}
+
 	public override function onPreloadComplete():Void {
 		for(shader in shaders) {
 			shader.includeVertexShader(Assets.getText("shaders/vertex.glsl"));
@@ -81,6 +93,8 @@ class Main extends Application {
 		shaders[0].includeFragmentShader(Assets.getText("shaders/feeshy-fragment.glsl"));
 		#end
 
+		shaders[1].includeFragmentShader(Assets.getText("shaders/trap-fragment.glsl"));
+
 		for(shader in shaders) {
 			shader.includeFragmentShader("uniform vec2 iResolution;\nuniform float iTime;\nuniform sampler2D iTexture;");
 			shader.compile();
@@ -88,6 +102,7 @@ class Main extends Application {
 
 		var texture = new Texture(window.context.webgl, Assets.getImage("assets/Feeshy.png"));
 		objects[0] = new Canvas(window.context.webgl, texture);
+		objects[1] = new Hills(window.context.webgl, window);
 
 		start = true;
 	}
