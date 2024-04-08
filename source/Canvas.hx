@@ -6,17 +6,19 @@ import lime.graphics.opengl.GLBuffer;
 import lime.utils.Float32Array;
 import lime.utils.Int16Array;
 
-class Canvas {
+class Canvas implements IObject {
     public var data(default, null):Float32Array;
     public var indices(default, null):Int16Array;
-    
+
     private var vertexBuffer:GLBuffer;
     private var texCoordBuffer:GLBuffer;
     private var indexBuffer:GLBuffer;
     private var gl:WebGLRenderContext;
+    private var texture:Texture;
 
-    public function new(gl:WebGLRenderContext) {
+    public function new(gl:WebGLRenderContext, texture:Texture) {
         this.gl = gl;
+	this.texture = texture;
 
         var vertices = [
             -1.0,  1.0,  // top left
@@ -45,7 +47,7 @@ class Canvas {
 
         gl.bindBuffer(gl.ARRAY_BUFFER, texCoordBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
-        
+
         this.indices = new Int16Array(indices);
         indexBuffer = gl.createBuffer();
 
@@ -64,5 +66,7 @@ class Canvas {
 
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
         gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
+
+	shader.bindTexture(texture);
     }
 }
