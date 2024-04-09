@@ -83,9 +83,8 @@ class Main extends Application {
 	}
 
 	public override function onPreloadComplete():Void {
-		for(shader in shaders) {
-			shader.includeVertexShader(Assets.getText("shaders/vertex.glsl"));
-		}
+		shaders[0].includeVertexShader(Assets.getText("shaders/vertex.glsl"));
+		shaders[1].includeVertexShader(Assets.getText("shaders/trap-vertex.glsl"));
 
 		#if debug
 		shaders[0].includeFragmentShader(Assets.getText("shaders/debug/feeshy-fragment.glsl"));

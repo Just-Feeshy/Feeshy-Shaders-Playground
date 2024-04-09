@@ -20,6 +20,7 @@ class Shader {
 
     public var glVertexAttribute(default, null):Int;
     public var glTextureAttribute(default, null):Int;
+    public var glColorAttribute(default, null):Int;
     public var fragmentSource(default, null):String = "";
     public var vertexSource(default, null):String = "";
 
@@ -46,7 +47,6 @@ class Shader {
     }
 
     public function bind():Void {
-        gl.enableVertexAttribArray(glVertexAttribute);
         gl.useProgram(glProgram);
     }
 
@@ -85,6 +85,7 @@ class Shader {
 
         glVertexAttribute = gl.getAttribLocation(glProgram, "a_position");
         glTextureAttribute = gl.getAttribLocation(glProgram, "a_texCoord");
+	glColorAttribute = gl.getAttribLocation(glProgram, "a_color");
 
         resolutionLocation = gl.getUniformLocation(glProgram, "iResolution");
         timeLocation = gl.getUniformLocation(glProgram, "iTime");
