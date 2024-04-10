@@ -20,7 +20,7 @@ class Hills implements IObject {
 	private var width:Float = 1;
 	private var x:Float = -1;
 
-	public var n:Int = 2048;
+	public var n:Int = 32;
 
 	public function new(gl:WebGLRenderContext, window:Window) {
 		this.gl = gl;
