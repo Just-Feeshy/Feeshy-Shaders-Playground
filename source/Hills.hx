@@ -75,7 +75,6 @@ class Hills implements IObject {
 
 		var indices = [];
 
-
 		var pick_colors = [
 			1.0, 0.0, 0.0,
 			1.0, 0.0, 0.0,
